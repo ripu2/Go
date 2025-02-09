@@ -4,7 +4,7 @@ import "fmt"
 
 var revenue, expense, taxRate float64
 
-func main() {
+func profitCalculator() {
 	revenue = inputTaker("Enter revenue: ")
 	expense = inputTaker("Enter expense: ")
 	taxRate = inputTaker("Enter tax rate: ")

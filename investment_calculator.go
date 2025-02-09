@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func main2() {
+func InvestmentCalculator() {
 	const inflationRate float64 = 2.5
 	var investmentAmount, years, expectedReturnRate float64
 
