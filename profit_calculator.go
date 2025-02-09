@@ -18,7 +18,13 @@ func main() {
 	profit := earningsBeforeTax * (1 - taxRate/100)
 	ratio := earningsBeforeTax / profit
 
-	fmt.Println("EBT is ", earningsBeforeTax)
-	fmt.Println("Profit is ", profit)
-	fmt.Println("Ratio is ", ratio)
+	outputGenerator("EBT is ", earningsBeforeTax)
+	outputGenerator("Profit is ", profit)
+	outputGenerator("Ratio is ", ratio)
+
+	outputGenerator("Type check %T", earningsBeforeTax)
+}
+
+func outputGenerator(label string, value float64) {
+	fmt.Printf("%s: %.2f\n", label, value)
 }
