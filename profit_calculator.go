@@ -2,29 +2,31 @@ package main
 
 import "fmt"
 
+var revenue, expense, taxRate float64
+
 func main() {
-	var revenue, expense, taxRate float64
+	revenue = inputTaker("Enter revenue: ")
+	expense = inputTaker("Enter expense: ")
+	taxRate = inputTaker("Enter tax rate: ")
 
-	fmt.Print("Enter revenue: ")
-	fmt.Scan(&revenue)
+	var earningsBeforeTax, profit, ratio = calulateProfit()
 
-	fmt.Print("Enter expense: ")
-	fmt.Scan(&expense)
+	fmt.Println("EBT is ", earningsBeforeTax)
+	fmt.Println("Profit is ", profit)
+	fmt.Printf("Ratio is %.2f ", ratio)
 
-	fmt.Print("Enter tax rate: ")
-	fmt.Scan(&taxRate)
-
-	earningsBeforeTax := revenue - expense
-	profit := earningsBeforeTax * (1 - taxRate/100)
-	ratio := earningsBeforeTax / profit
-
-	outputGenerator("EBT is ", earningsBeforeTax)
-	outputGenerator("Profit is ", profit)
-	outputGenerator("Ratio is ", ratio)
-
-	outputGenerator("Type check %T", earningsBeforeTax)
 }
 
-func outputGenerator(label string, value float64) {
-	fmt.Printf("%s: %.2f\n", label, value)
+func calulateProfit() (ebt float64, profit float64, ratio float64) {
+	ebt = revenue - expense
+	profit = ebt * (1 - taxRate/100)
+	ratio = ebt / profit
+
+	return
+}
+
+func inputTaker(label string) (input float64) {
+	fmt.Print(label)
+	fmt.Scan(&input)
+	return
 }
