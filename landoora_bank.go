@@ -14,6 +14,7 @@ const balanceFileNmae = "balance.txt"
 func main() {
 	fmt.Println("Welcome to landoora Bank")
 	balance, _ = readBalanceFromFile()
+
 	for {
 		if !performBanking() {
 			break
@@ -28,6 +29,7 @@ func writeToFile() error {
 	error := os.WriteFile(balanceFileNmae, []byte(balanceInStirng), 0644)
 	if error != nil {
 		return errors.New("Failed to save balance file")
+		panic("can't write to file, Fuck!!!!!")
 	}
 	return nil
 }
