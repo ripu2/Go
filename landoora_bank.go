@@ -1,18 +1,46 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+)
 
 var balance float64
 
+const balanceFileNmae = "balance.txt"
+
 func main() {
 	fmt.Println("Welcome to landoora Bank")
-
+	balance, _ = readBalanceFromFile()
 	for {
 		if !performBanking() {
 			break
 		}
 	}
 	fmt.Println("Goodbye !!, Thanks for choosing our bank, Have a good day")
+
+}
+
+func writeToFile() error {
+	balanceInStirng := fmt.Sprint(balance)
+	error := os.WriteFile(balanceFileNmae, []byte(balanceInStirng), 0644)
+	if error != nil {
+		return errors.New("Failed to save balance file")
+	}
+	return nil
+}
+
+func readBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile(balanceFileNmae)
+	if err != nil {
+		return 0, errors.New("Failed to fetch balace")
+	} else {
+		balanceText := string(data)
+		balance, err := strconv.ParseFloat(balanceText, 64)
+		return balance, err
+	}
 
 }
 
@@ -31,6 +59,7 @@ func performBanking() bool {
 		return true
 
 	default:
+		writeToFile()
 		return false
 	}
 }
