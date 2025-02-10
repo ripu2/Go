@@ -1,19 +1,30 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
+
+	"example.com/first-app/packages/banking"
+	"example.com/first-app/packages/communication"
+	"example.com/first-app/packages/fileops"
+	"github.com/joho/godotenv"
 )
 
 var balance float64
-
-const balanceFileNmae = "balance.txt"
+var balanceFileNmae string
 
 func main() {
-	fmt.Println("Welcome to landoora Bank")
-	balance, _ = readBalanceFromFile()
+
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
+
+	balanceFileNmae = os.Getenv("FILE_NAME")
+	balanceText, _ := fileops.ReadFromFile(balanceFileNmae)
+	balanceValue, _ := strconv.ParseFloat(balanceText, 64)
+	balance = balanceValue
 
 	for {
 		if !performBanking() {
@@ -24,91 +35,26 @@ func main() {
 
 }
 
-func writeToFile() error {
-	balanceInStirng := fmt.Sprint(balance)
-	error := os.WriteFile(balanceFileNmae, []byte(balanceInStirng), 0644)
-	if error != nil {
-		return errors.New("Failed to save balance file")
-		panic("can't write to file, Fuck!!!!!")
-	}
-	return nil
-}
-
-func readBalanceFromFile() (float64, error) {
-	data, err := os.ReadFile(balanceFileNmae)
-	if err != nil {
-		return 0, errors.New("Failed to fetch balace")
-	} else {
-		balanceText := string(data)
-		balance, err := strconv.ParseFloat(balanceText, 64)
-		return balance, err
-	}
-
+func updateBalance(newBalance float64) {
+	balance = newBalance
 }
 
 func performBanking() bool {
-	var choice = printMenu()
+	var choice = communication.PrintMenu()
 
 	switch choice {
 	case 1:
-		checkBalance()
+		banking.CheckBalance(balance)
 		return true
 	case 2:
-		depositMoney()
+		banking.DepositMoney(balance, updateBalance)
 		return true
 	case 3:
-		withdrawMoney()
+		banking.WithdrawMoney(balance, updateBalance)
 		return true
 
 	default:
-		writeToFile()
+		fileops.WriteToFile(balanceFileNmae, balance)
 		return false
 	}
-}
-
-func checkBalance() {
-	fmt.Printf("Your current balance is: %.2f\n", balance)
-}
-
-func depositMoney() {
-	var amount = takeInput("Enter the amount to deposit: ")
-	if amount <= 0 {
-		fmt.Printf("Please enter a valid amount!!!!")
-		return
-	}
-	balance += float64(amount)
-	fmt.Printf("Deposit Successful. New balance is: %.2f\n", balance)
-
-}
-
-func withdrawMoney() {
-	var amount = takeInput("Enter the amount to withdraw: ")
-	if amount <= 0 {
-		fmt.Printf("Please enter a valid amount!!!!")
-		return
-	}
-	if amount > balance {
-		fmt.Println("Insufficient balance")
-	} else {
-
-		balance -= float64(amount)
-		fmt.Printf("Withdrawal Successful. New balance is: %.2f\n", balance)
-	}
-}
-
-func printMenu() (choice float64) {
-	fmt.Println("What do you want to do")
-	fmt.Println("1: Check Balance")
-	fmt.Println("2: Deposit Money")
-	fmt.Println("3: Withdraw Money")
-	fmt.Println("4: Exit")
-
-	choice = takeInput("Enter Your Choice: ")
-	return
-}
-
-func takeInput(label string) (input float64) {
-	fmt.Print(label)
-	fmt.Scan(&input)
-	return
 }
