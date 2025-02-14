@@ -14,7 +14,7 @@ import (
 var balance float64
 var balanceFileNmae string
 
-func main() {
+func landoora_bank() {
 
 	err := godotenv.Load()
 	if err != nil {
