@@ -40,7 +40,7 @@ func updateBalance(newBalance float64) {
 }
 
 func performBanking() bool {
-	var choice = communication.PrintMenu()
+	var choice, _ = strconv.ParseFloat(communication.PrintMenu(), 64)
 
 	switch choice {
 	case 1:
