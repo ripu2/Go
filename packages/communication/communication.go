@@ -2,7 +2,7 @@ package communication
 
 import "fmt"
 
-func PrintMenu() (choice float64) {
+func PrintMenu() (choice string) {
 	fmt.Println("What do you want to do")
 	fmt.Println("1: Check Balance")
 	fmt.Println("2: Deposit Money")
@@ -13,8 +13,12 @@ func PrintMenu() (choice float64) {
 	return
 }
 
-func TakeInput(label string) (input float64) {
+func TakeInput(label string) (input string) {
 	fmt.Print(label)
-	fmt.Scan(&input)
+	fmt.Scanln(&input)
 	return
+}
+
+func PrintValues(label string, value string) {
+	fmt.Printf("%s: %s\n", label, value)
 }

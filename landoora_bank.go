@@ -14,7 +14,7 @@ import (
 var balance float64
 var balanceFileNmae string
 
-func main() {
+func bank() {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -40,7 +40,7 @@ func updateBalance(newBalance float64) {
 }
 
 func performBanking() bool {
-	var choice = communication.PrintMenu()
+	var choice, _ = strconv.ParseFloat(communication.PrintMenu(), 64)
 
 	switch choice {
 	case 1:

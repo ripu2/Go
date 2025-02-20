@@ -2,6 +2,7 @@ package banking
 
 import (
 	"fmt"
+	"strconv"
 
 	"example.com/first-app/packages/communication"
 )
@@ -11,7 +12,7 @@ func CheckBalance(balance float64) {
 }
 
 func DepositMoney(balance float64, setBalance func(float64)) {
-	var amount = communication.TakeInput("Enter the amount to deposit: ")
+	var amount, _ = strconv.ParseFloat(communication.TakeInput("Enter the amount to deposit: "), 64)
 	if amount <= 0 {
 		fmt.Printf("Please enter a valid amount!!!!")
 		return
@@ -22,7 +23,7 @@ func DepositMoney(balance float64, setBalance func(float64)) {
 }
 
 func WithdrawMoney(balance float64, setBalance func(float64)) {
-	var amount = communication.TakeInput("Enter the amount to withdraw: ")
+	var amount, _ = strconv.ParseFloat(communication.TakeInput("Enter the amount to withdraw: "), 64)
 	if amount <= 0 {
 		fmt.Printf("Please enter a valid amount!!!!")
 		return
