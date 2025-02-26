@@ -7,7 +7,7 @@ import (
 	"example.com/first-app/packages/user"
 )
 
-func main() {
+func structs() {
 
 	userFirstName := communication.TakeInput("Please enter your first name:")
 	userLastName := communication.TakeInput("Please enter your last name:")
