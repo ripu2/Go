@@ -6,7 +6,7 @@ import (
 	"example.com/first-app/packages/voting"
 )
 
-func main() {
+func poll() {
 	fmt.Println("Please enter your age")
 	var age string
 	fmt.Scan(&age)
